@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Choose Questions to Ask</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<h1>Choose Questions to Ask</h1>
+<p class="intro">Choose what you genuinely want to learn. Strong questions help you evaluate the role and show that you are thinking about how you would work in the school.</p>
+<h2>What do you most want to understand?</h2>
+<div class="chips" id="areas"></div>
+<div class="btnrow"><button class="primary" onclick="generate()">Show me question options</button></div>
+<div id="results"></div>
+<div class="footer-nav"><a class="button secondary" href="index.html">Start page</a><a class="button secondary" href="school-district-research.html">Research the school & district</a></div>
+</main>
+<script>
+const bank={
+"Students & classroom":["What would you want a new teacher to understand about the students at this school?","What are some of the biggest strengths of the student community here?","What supports are available when a student needs additional academic or behavioral support?"],
+"Curriculum & instruction":["How much flexibility do teachers have in how they approach the curriculum?","What instructional priorities are most important for this team right now?","How do teachers typically use common planning, curriculum resources, or assessment data?"],
+"New teacher support":["What does support look like for someone new to the school or district?","Is there a mentoring or induction process for new teachers?","How do administrators typically give feedback and support teacher growth?"],
+"Collaboration":["How do teachers in this grade level or department typically collaborate?","How is common planning time usually used?","Who would I work with most closely in this role?"],
+"School culture":["How would you describe the culture among staff?","What tends to help teachers be successful at this school?","What is something staff here are especially proud of?"],
+"Professional learning":["What professional learning opportunities are available to teachers?","How are teachers supported when they want to strengthen an area of practice?","Are there opportunities to take on leadership or contribute to school initiatives over time?"],
+"Families & community":["How does the school build relationships with families and the broader community?","What communication with families is typically expected of teachers?","Are there community partnerships that are especially important to the school?"],
+"Role expectations":["What would success in this role look like during the first semester?","What are the biggest priorities for the person stepping into this position?","Is there anything about the day-to-day responsibilities that may not be obvious from the job posting?"]
+};
+const areas=document.getElementById('areas');
+Object.keys(bank).forEach(k=>{let b=document.createElement('button');b.type='button';b.className='chip';b.textContent=k;b.setAttribute('aria-pressed','false');b.onclick=()=>b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');areas.appendChild(b)});
+function generate(){
+ let sel=[...document.querySelectorAll('.chip[aria-pressed=true]')].map(b=>b.textContent);
+ const r=document.getElementById('results');
+ if(!sel.length){r.innerHTML='<div class="notice">Choose at least one area first.</div>';return}
+ let html='<h2>Question options</h2><p class="help">Choose 2–3 that you actually want answered. Avoid asking something the website or interviewer already clearly answered.</p>';
+ sel.forEach(s=>{html+=`<div class="card"><h3>${s}</h3>`+bank[s].map(q=>`<label><input type="checkbox"> ${q}</label>`).join('')+'</div>'});
+ html+='<div class="summary"><strong>Before the interview:</strong> prioritize questions that help you understand the role, students, expectations, and support. You do not need to ask every question you prepared.</div>';
+ r.innerHTML=html;r.scrollIntoView({behavior:'smooth'})
+}
+</script></body></html>
